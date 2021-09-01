@@ -11,17 +11,18 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.WritableMap;
-import com.twitter.sdk.android.core.DefaultLogger;
-import com.twitter.sdk.android.core.Result;
-import com.twitter.sdk.android.core.SessionManager;
-import com.twitter.sdk.android.core.Twitter;
-import com.twitter.sdk.android.core.TwitterAuthConfig;
-import com.twitter.sdk.android.core.TwitterAuthToken;
-import com.twitter.sdk.android.core.TwitterConfig;
-import com.twitter.sdk.android.core.TwitterCore;
-import com.twitter.sdk.android.core.TwitterException;
-import com.twitter.sdk.android.core.TwitterSession;
-import com.twitter.sdk.android.core.identity.TwitterAuthClient;
+import com.goldenowl.twittersignin.twitter.Callback;
+import com.goldenowl.twittersignin.twitter.DefaultLogger;
+import com.goldenowl.twittersignin.twitter.Result;
+import com.goldenowl.twittersignin.twitter.SessionManager;
+import com.goldenowl.twittersignin.twitter.Twitter;
+import com.goldenowl.twittersignin.twitter.TwitterAuthConfig;
+import com.goldenowl.twittersignin.twitter.TwitterAuthToken;
+import com.goldenowl.twittersignin.twitter.TwitterConfig;
+import com.goldenowl.twittersignin.twitter.TwitterCore;
+import com.goldenowl.twittersignin.twitter.TwitterException;
+import com.goldenowl.twittersignin.twitter.TwitterSession;
+import com.goldenowl.twittersignin.twitter.identity.TwitterAuthClient;
 
 import java.util.Map;
 import java.util.Set;
@@ -58,7 +59,7 @@ public class TwitterSigninModule extends ReactContextBaseJavaModule implements A
     @ReactMethod
     public void logIn(final Promise promise) {
         twitterAuthClient = new TwitterAuthClient();
-        twitterAuthClient.authorize(getCurrentActivity(), new com.twitter.sdk.android.core.Callback<TwitterSession>() {
+        twitterAuthClient.authorize(getCurrentActivity(), new Callback<TwitterSession>() {
             @Override
             public void success(Result<TwitterSession> result) {
                 final TwitterSession session = result.data;
@@ -69,7 +70,7 @@ public class TwitterSigninModule extends ReactContextBaseJavaModule implements A
                 map.putString("name", session.getUserName());
                 map.putString("userID", Long.toString(session.getUserId()));
                 map.putString("userName", session.getUserName());
-                twitterAuthClient.requestEmail(session, new com.twitter.sdk.android.core.Callback<String>() {
+                twitterAuthClient.requestEmail(session, new Callback<String>() {
                     @Override
                     public void success(Result<String> result) {
                         map.putString("email", result.data);
@@ -111,14 +112,17 @@ public class TwitterSigninModule extends ReactContextBaseJavaModule implements A
                 .clearActiveSession();
     }
 
-    @Override
     public void onNewIntent(Intent intent) {
     }
 
-    @Override
     public void onActivityResult(Activity currentActivity, int requestCode, int resultCode, Intent data) {
         if (twitterAuthClient != null && twitterAuthClient.getRequestCode() == requestCode) {
             twitterAuthClient.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    @Override
+    public void onActivityResult(int i, int i1, Intent intent) {
+
     }
 }

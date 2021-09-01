@@ -1,3 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.goldenowl.twittersignin">
+  <uses-permission android:name="android.permission.INTERNET"/>
+
+  <application>
+
+    <activity android:name=".twitter.identity.OAuthActivity"
+      android:configChanges="orientation|screenSize"
+      android:excludeFromRecents="true"
+      android:exported="false"/>
+
+  </application>
 </manifest>

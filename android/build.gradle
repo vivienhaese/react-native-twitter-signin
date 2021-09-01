@@ -3,46 +3,60 @@ def safeExtGet(prop, fallback) {
 }
 
 buildscript {
-    repositories {
-        jcenter()
-        mavenCentral()
-        google()
-    }
+    // The Android Gradle plugin is only required when opening the android folder stand-alone.
+    // This avoids unnecessary downloads and potential conflicts when the library is included as a
+    // module dependency in an application project.
+    if (project == rootProject) {
+        repositories {
+            google()
+            mavenCentral()
+        }
 
-    dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.3'
+        dependencies {
+            classpath("com.android.tools.build:gradle:3.6.3")
+        }
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        maven { url "$projectDir/../node_modules/react-native/android" }
     }
 }
 
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion safeExtGet('compileSdkVersion', 27)
-    buildToolsVersion safeExtGet('buildToolsVersion', '27.0.3')
+    compileSdkVersion safeExtGet('compileSdkVersion', 28)
 
     defaultConfig {
-        minSdkVersion safeExtGet('minSdkVersion', 16)
-        targetSdkVersion safeExtGet('targetSdkVersion', 26)
+        minSdkVersion safeExtGet('minSdkVersion', 18)
+        targetSdkVersion safeExtGet('targetSdkVersion', 28)
         versionCode 1
         versionName "1.0"
+        ndk {
+            abiFilters "armeabi-v7a", "x86"
+        }
     }
+
     lintOptions {
         abortOnError false
     }
 }
 
-repositories {
-    mavenCentral()
-    maven {
-        url 'https://maven.google.com/'
-        name 'Google'
-    }
-}
-
 dependencies {
-    implementation 'com.facebook.react:react-native:+'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "androidx.appcompat:appcompat:1.1.0"
     implementation "com.android.support:appcompat-v7:27.1.1"
-    implementation('com.twitter.sdk.android:twitter-core:3.3.0') {
-        transitive = true
-    }
+    implementation "com.google.code.gson:gson:2.7"
+    implementation "com.squareup.okhttp3:okhttp:3.8.0"
+    implementation "com.squareup.retrofit2:retrofit:2.3.0"
+    implementation "com.squareup.retrofit2:converter-gson:2.3.0"
+    implementation "com.squareup.okhttp3:logging-interceptor:3.8.0"
+    // implementation('com.twitter.sdk.android:twitter-core:3.3.0') {
+       // transitive = true
+    // }
+    implementation "com.facebook.react:react-native:+"
 }
