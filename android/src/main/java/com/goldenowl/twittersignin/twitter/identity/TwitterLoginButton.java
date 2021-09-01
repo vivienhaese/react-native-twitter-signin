@@ -31,7 +31,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.goldenowl.twittersignin.twitter.Callback;
-import com.goldenowl.twittersignin.twitter.R;
+import com.goldenowl.twittersignin.R;
 import com.goldenowl.twittersignin.twitter.Twitter;
 import com.goldenowl.twittersignin.twitter.TwitterCore;
 import com.goldenowl.twittersignin.twitter.TwitterSession;
