@@ -65,7 +65,7 @@ public final class ExecutorUtils {
 
         return new ThreadFactory() {
             @Override
-            public Thread newThread(@NonNull @org.jetbrains.annotations.NotNull Runnable runnable) {
+            public Thread newThread(@NonNull Runnable runnable) {
                 final Thread thread = Executors.defaultThreadFactory().newThread(runnable);
                 thread.setName(threadNameTemplate + count.getAndIncrement());
                 return thread;
