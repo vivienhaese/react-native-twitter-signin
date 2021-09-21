@@ -17,8 +17,6 @@
 
 package com.goldenowl.twittersignin.twitter.internal;
 
-import android.support.annotation.NonNull;
-
 import com.goldenowl.twittersignin.twitter.Twitter;
 
 import java.util.Locale;
@@ -65,7 +63,7 @@ public final class ExecutorUtils {
 
         return new ThreadFactory() {
             @Override
-            public Thread newThread(@NonNull Runnable runnable) {
+            public Thread newThread(Runnable runnable) {
                 final Thread thread = Executors.defaultThreadFactory().newThread(runnable);
                 thread.setName(threadNameTemplate + count.getAndIncrement());
                 return thread;
